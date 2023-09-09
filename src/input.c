@@ -35,8 +35,7 @@ char get_char(const char *message)
 
     do
     {
-        input = get_string(message);
-        if (!input)
+        if (!(input = get_string(message)))
         {
             return CHAR_MAX;
         }
@@ -53,8 +52,7 @@ double get_double(const char *message)
 
     do
     {
-        input = get_string(message);
-        if (!input)
+        if (!(input = get_string(message)))
         {
             return DBL_MAX;
         }
@@ -71,8 +69,7 @@ float get_float(const char *message)
 
     do
     {
-        input = get_string(message);
-        if (!input)
+        if (!(input = get_string(message)))
         {
             return FLT_MAX;
         }
@@ -89,8 +86,7 @@ int get_int(const char *message)
 
     do
     {
-        input = get_string(message);
-        if (!input)
+        if (!(input = get_string(message)))
         {
             return INT_MAX;
         }
@@ -107,8 +103,7 @@ long get_long(const char *message)
 
     do
     {
-        input = get_string(message);
-        if (!input)
+        if (!(input = get_string(message)))
         {
             return LONG_MAX;
         }
@@ -127,8 +122,7 @@ char *get_string(const char *message)
 
     printf("%s", message);
 
-    str = malloc(1);
-    if (!str)
+    if (!(str = malloc(1)))
     {
         return NULL;
     }
@@ -143,8 +137,7 @@ char *get_string(const char *message)
         str[len] = (char)c;
         len++;
 
-        aux = realloc(str, len);
-        if (!aux)
+        if (!(aux = realloc(str, len)))
         {
             return NULL;
         }
