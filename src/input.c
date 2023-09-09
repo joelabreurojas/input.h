@@ -19,6 +19,16 @@ static void cleanup(void)
     free(str);
 }
 
+static int endofline(int c)
+{
+    if (c == '\r' && (c = fgetc(stdin)) != '\n' && c != EOF)
+    {
+        ungetc(c, stdin);
+    }
+
+    return (c == '\r' || c == '\n');
+}
+
 char get_char(const char *message)
 {
     char c, i, *input = NULL;
@@ -123,7 +133,7 @@ char *get_string(const char *message)
         return NULL;
     }
 
-    while ((c = fgetc(stdin)) != '\n' && c != EOF)
+    while ((c = fgetc(stdin)) != EOF && !endofline(c))
     {
         if (len + 1 > SIZE_MAX)
         {
