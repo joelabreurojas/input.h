@@ -134,8 +134,7 @@ char *get_string(const char *message)
             return NULL;
         }
 
-        str[len] = (char)c;
-        len++;
+        str[len++] = (char)c;
 
         if (!(aux = realloc(str, len)))
         {
