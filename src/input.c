@@ -21,12 +21,17 @@ static void cleanup(void)
 
 static int endofline(int c)
 {
+    int eol = (c == '\r' || c == '\n');
+
     if (c == '\r' && (c = fgetc(stdin)) != '\n' && c != EOF)
     {
-        ungetc(c, stdin);
+        if (ungetc(c, stdin) == EOF)
+        {
+            return -1;
+        }
     }
 
-    return (c == '\r' || c == '\n');
+    return eol;
 }
 
 char get_char(const char *message)
@@ -117,7 +122,7 @@ long get_long(const char *message)
 char *get_string(const char *message)
 {
     char *aux = NULL;
-    int c = 0;
+    int c = 0, eol = 0;
     size_t len = 0;
 
     printf("%s", message);
@@ -127,9 +132,9 @@ char *get_string(const char *message)
         return NULL;
     }
 
-    while ((c = fgetc(stdin)) != EOF && !endofline(c))
+    while ((c = fgetc(stdin)) != EOF && !(eol = endofline(c)))
     {
-        if (len + 1 > SIZE_MAX)
+        if (eol == -1 || len + 1 > SIZE_MAX)
         {
             return NULL;
         }
