@@ -23,12 +23,10 @@ static int endofline(int c)
 {
     const int eol = (c == '\r' || c == '\n');
 
-    if (c == '\r' && (c = getc(stdin)) != '\n' && c != EOF)
+    if (c == '\r' && (c = getc(stdin)) != '\n' &&
+        c != EOF && ungetc(c, stdin) == EOF)
     {
-        if (ungetc(c, stdin) == EOF)
-        {
-            return -1;
-        }
+        return -1;
     }
 
     return eol;
