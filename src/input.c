@@ -23,7 +23,7 @@ static int endofline(int c)
 {
     int eol = (c == '\r' || c == '\n');
 
-    if (c == '\r' && (c = fgetc(stdin)) != '\n' && c != EOF)
+    if (c == '\r' && (c = getc(stdin)) != '\n' && c != EOF)
     {
         if (ungetc(c, stdin) == EOF)
         {
@@ -132,7 +132,7 @@ char *get_string(const char *message)
         return NULL;
     }
 
-    while ((c = fgetc(stdin)) != EOF && !(eol = endofline(c)))
+    while ((c = getc(stdin)) != EOF && !(eol = endofline(c)))
     {
         if (eol == -1 || len + 1 > SIZE_MAX)
         {
