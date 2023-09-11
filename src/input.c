@@ -21,7 +21,7 @@ static void cleanup(void)
 
 static int endofline(int c)
 {
-    int eol = (c == '\r' || c == '\n');
+    const int eol = (c == '\r' || c == '\n');
 
     if (c == '\r' && (c = getc(stdin)) != '\n' && c != EOF)
     {
@@ -36,11 +36,11 @@ static int endofline(int c)
 
 char get_char(const char *message)
 {
-    char c = 0, i = 0, *input = get_string(message);
+    char c = 0, i = 0, *input = NULL;
 
     do
     {
-        if (!(input))
+        if (!(input =get_string(message)))
         {
             return CHAR_MAX;
         }
@@ -52,12 +52,12 @@ char get_char(const char *message)
 
 double get_double(const char *message)
 {
-    char c = 0, *input = get_string(message);
+    char c = 0, *input = NULL;
     double d = 0;
 
     do
     {
-        if (!(input))
+        if (!(input = get_string(message)))
         {
             return DBL_MAX;
         }
@@ -69,12 +69,12 @@ double get_double(const char *message)
 
 float get_float(const char *message)
 {
-    char c = 0, *input = get_string(message);
+    char c = 0, *input = NULL;
     float f = 0;
 
     do
     {
-        if (!(input))
+        if (!(input = get_string(message)))
         {
             return FLT_MAX;
         }
@@ -86,12 +86,12 @@ float get_float(const char *message)
 
 int get_int(const char *message)
 {
-    char c = 0, *input = get_string(message);
+    char c = 0, *input = NULL;
     int i = 0;
 
     do
     {
-        if (!(input))
+        if (!(input = get_string(message)))
         {
             return INT_MAX;
         }
@@ -103,12 +103,12 @@ int get_int(const char *message)
 
 long get_long(const char *message)
 {
-    char c = 0, *input = get_string(message);
+    char c = 0, *input = NULL;
     long l = 0;
 
     do
     {
-        if (!(input))
+        if (!(input = get_string(message)))
         {
             return LONG_MAX;
         }
