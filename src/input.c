@@ -1,9 +1,12 @@
+#include <ctype.h>
+#include <errno.h>
 #include <float.h>
 #include <limits.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include "input.h"
 
 #if defined (__GNUC__)
@@ -38,7 +41,7 @@ char get_char(const char *message)
 
     do
     {
-        if (!(input =get_string(message)))
+        if (!(input = get_string(message)))
         {
             return CHAR_MAX;
         }
@@ -50,8 +53,8 @@ char get_char(const char *message)
 
 double get_double(const char *message)
 {
-    char c = 0, *input = NULL;
-    double d = 0;
+    char *input = NULL, *str = NULL;
+    double d = 0.0;
 
     do
     {
@@ -59,16 +62,20 @@ double get_double(const char *message)
         {
             return DBL_MAX;
         }
+
+        errno = 0;
+        d = strtod(input, &str);
     }
-    while (sscanf(input, "%lg%c", &d, &c) != 1);
+    while (str == input || *str != '\0' || errno ||
+           !isfinite(d) || strcspn(input, "XxEePp") != strlen(input));
 
     return d;
 }
 
 float get_float(const char *message)
 {
-    char c = 0, *input = NULL;
-    float f = 0;
+    char *input = NULL, *str = NULL;
+    float f = 0.0;
 
     do
     {
@@ -76,16 +83,20 @@ float get_float(const char *message)
         {
             return FLT_MAX;
         }
+
+        errno = 0;
+        f = strtof(input, &str);
     }
-    while (sscanf(input, "%g%c", &f, &c) != 1);
+    while (str == input || *str != '\0' || errno ||
+           !isfinite(f) || strcspn(input, "XxEePp") != strlen(input));
 
     return f;
 }
 
 int get_int(const char *message)
 {
-    char c = 0, *input = NULL;
-    int i = 0;
+    char *input = NULL, *str = NULL;
+    long i = 0;
 
     do
     {
@@ -93,15 +104,19 @@ int get_int(const char *message)
         {
             return INT_MAX;
         }
+
+        errno = 0;
+        i = strtol(input, &str, 9);
     }
-    while (sscanf(input, "%i%c", &i, &c) != 1);
+    while (str == input || *str != '\0' || errno &&
+           i >= INT_MIN && i <= INT_MAX);
 
     return i;
 }
 
 long get_long(const char *message)
 {
-    char c = 0, *input = NULL;
+    char *input = NULL, *str = NULL;
     long l = 0;
 
     do
@@ -111,8 +126,10 @@ long get_long(const char *message)
             return LONG_MAX;
         }
 
+        errno = 0;
+        l = strtol(input, &str, 10);
     }
-    while (sscanf(input, "%li%c", &l, &c) != 1);
+    while (str == input || *str != '\0' || errno);
 
     return l;
 }
@@ -132,7 +149,7 @@ char *get_string(const char *message)
 
     while ((c = getc(stdin)) != EOF && !(eol = endofline(c)))
     {
-        if (eol == -1 || len + 1 > SIZE_MAX)
+        if (eol == -1 || len > SIZE_MAX - 1)
         {
             return NULL;
         }
@@ -143,6 +160,7 @@ char *get_string(const char *message)
         {
             return NULL;
         }
+
         str = aux;
     }
 
