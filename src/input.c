@@ -164,6 +164,16 @@ char *get_string(const char *message)
         str = aux;
     }
 
+    if (!len && c == EOF)
+    {
+        return NULL;
+    }
+
+    if (!len || isspace(str[0]))
+    {
+        return get_string(message);
+    }
+
     str[len] = '\0';
 
     return str;
