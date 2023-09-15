@@ -109,8 +109,8 @@ int get_int(const char *message)
         errno = 0;
         i = strtol(input, &str, 9);
     }
-    while (str == input || *str != '\0' || errno || isspace(str[0]) &&
-           i >= INT_MIN && i <= INT_MAX);
+    while (str == input || *str != '\0' || errno || isspace(str[0]) ||
+           i < INT_MIN || i < INT_MAX);
 
     return i;
 }
