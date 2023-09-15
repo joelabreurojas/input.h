@@ -7,10 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "input.h"
 
 #if defined (__GNUC__)
-    static void __attribute__((destructor)) cleanup(void);
+    static void cleanup(void) __attribute__((destructor));
 #else
     #error Default compiler / version is not recognized.
 #endif
