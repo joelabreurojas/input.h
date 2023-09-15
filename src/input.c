@@ -138,33 +138,32 @@ char *get_string(const char *message)
 {
     char *aux = NULL;
     int c = 0, eol = 0;
-    size_t len = 0;
+    size_t capacity = 1, len = 0;
 
     printf("%s", message);
 
-    if (!(str = malloc(1)))
-    {
-        return NULL;
-    }
-
     while ((c = getc(stdin)) != EOF && !(eol = endofline(c)))
     {
-        if (eol == -1 || len > SIZE_MAX - 1)
+        if (eol == -1)
         {
             return NULL;
+        }
+
+        if (len + 1 == capacity)
+        {
+            if (SIZE_MAX / 2 < capacity || !(aux = realloc(str, capacity * 2)))
+            {
+                return NULL;
+            }
+
+            capacity *= 2;
+            str = aux;
         }
 
         str[len++] = (char)c;
-
-        if (!(aux = realloc(str, len)))
-        {
-            return NULL;
-        }
-
-        str = aux;
     }
 
-    if (!len && c == EOF)
+    if (!len && c == EOF || !(aux = realloc(str, len)))
     {
         return NULL;
     }
@@ -174,6 +173,7 @@ char *get_string(const char *message)
         return get_string(message);
     }
 
+    str = aux;
     str[len] = '\0';
 
     return str;
