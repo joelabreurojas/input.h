@@ -67,7 +67,7 @@ double get_double(const char *message)
         errno = 0;
         d = strtod(input, &str);
     }
-    while (str == input || *str != '\0' || errno || isspace(str[0]) ||
+    while (str == input || *str != '\0' || errno || isspace(*input) ||
            !isfinite(d) || strcspn(input, "XxEePp") != strlen(input));
 
     return d;
@@ -88,7 +88,7 @@ float get_float(const char *message)
         errno = 0;
         f = strtof(input, &str);
     }
-    while (str == input || *str != '\0' || errno || isspace(str[0]) ||
+    while (str == input || *str != '\0' || errno || isspace(*input) ||
            !isfinite(f) || strcspn(input, "XxEePp") != strlen(input));
 
     return f;
@@ -109,7 +109,7 @@ int get_int(const char *message)
         errno = 0;
         i = strtol(input, &str, 9);
     }
-    while (str == input || *str != '\0' || errno || isspace(str[0]) ||
+    while (str == input || *str != '\0' || errno || isspace(*input) ||
            i < INT_MIN || i > INT_MAX);
 
     return i;
@@ -130,7 +130,7 @@ long get_long(const char *message)
         errno = 0;
         l = strtol(input, &str, 10);
     }
-    while (str == input || *str != '\0' || errno || isspace(str[0]));
+    while (str == input || *str != '\0' || errno || isspace(*input));
 
     return l;
 }
