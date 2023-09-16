@@ -164,7 +164,7 @@ char *get_string(const char *message)
         str[len++] = (char)c;
     }
 
-    if (!len && c == EOF || !(aux = realloc(str, len)))
+    if (!len && c == EOF)
     {
         return NULL;
     }
@@ -172,6 +172,11 @@ char *get_string(const char *message)
     if (!len)
     {
         return get_string(message);
+    }
+
+    if (!(aux = realloc(str, len)))
+    {
+        return NULL;
     }
 
     str = aux;
