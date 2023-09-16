@@ -110,7 +110,7 @@ int get_int(const char *message)
         i = strtol(input, &str, 9);
     }
     while (str == input || *str != '\0' || errno || isspace(str[0]) ||
-           i < INT_MIN || i < INT_MAX);
+           i < INT_MIN || i > INT_MAX);
 
     return i;
 }
