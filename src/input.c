@@ -54,7 +54,7 @@ char get_char(const char *message)
 
 double get_double(const char *message)
 {
-    char *input = NULL, *str = NULL;
+    char *input = NULL, *tmp = NULL;
     double d = 0.0;
 
     do
@@ -65,9 +65,9 @@ double get_double(const char *message)
         }
 
         errno = 0;
-        d = strtod(input, &str);
+        d = strtod(input, &tmp);
     }
-    while (str == input || *str != '\0' || errno || isspace(*input) ||
+    while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            !isfinite(d) || strcspn(input, "XxEePp") != strlen(input));
 
     return d;
@@ -75,7 +75,7 @@ double get_double(const char *message)
 
 float get_float(const char *message)
 {
-    char *input = NULL, *str = NULL;
+    char *input = NULL, *tmp = NULL;
     float f = 0.0;
 
     do
@@ -86,9 +86,9 @@ float get_float(const char *message)
         }
 
         errno = 0;
-        f = strtof(input, &str);
+        f = strtof(input, &tmp);
     }
-    while (str == input || *str != '\0' || errno || isspace(*input) ||
+    while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            !isfinite(f) || strcspn(input, "XxEePp") != strlen(input));
 
     return f;
@@ -96,7 +96,7 @@ float get_float(const char *message)
 
 int get_int(const char *message)
 {
-    char *input = NULL, *str = NULL;
+    char *input = NULL, *tmp = NULL;
     long i = 0;
 
     do
@@ -107,9 +107,9 @@ int get_int(const char *message)
         }
 
         errno = 0;
-        i = strtol(input, &str, 9);
+        i = strtol(input, &tmp, 9);
     }
-    while (str == input || *str != '\0' || errno || isspace(*input) ||
+    while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            i < INT_MIN || i > INT_MAX);
 
     return i;
@@ -117,7 +117,7 @@ int get_int(const char *message)
 
 long get_long(const char *message)
 {
-    char *input = NULL, *str = NULL;
+    char *input = NULL, *tmp = NULL;
     long l = 0;
 
     do
@@ -128,16 +128,16 @@ long get_long(const char *message)
         }
 
         errno = 0;
-        l = strtol(input, &str, 10);
+        l = strtol(input, &tmp, 10);
     }
-    while (str == input || *str != '\0' || errno || isspace(*input));
+    while (tmp == input || *tmp != '\0' || errno || isspace(*input));
 
     return l;
 }
 
 char *get_string(const char *message)
 {
-    char *aux = NULL;
+    char *tmp = NULL;
     int c = 0, eol = 0;
     size_t capacity = 1, len = 0;
 
@@ -152,13 +152,13 @@ char *get_string(const char *message)
 
         if (len + 1 == capacity)
         {
-            if (SIZE_MAX / 2 < capacity || !(aux = realloc(str, capacity * 2)))
+            if (SIZE_MAX / 2 < capacity || !(tmp = realloc(str, capacity * 2)))
             {
                 return NULL;
             }
 
             capacity *= 2;
-            str = aux;
+            str = tmp;
         }
 
         str[len++] = (char)c;
@@ -174,12 +174,12 @@ char *get_string(const char *message)
         return get_string(message);
     }
 
-    if (!(aux = realloc(str, len)))
+    if (!(tmp = realloc(str, len)))
     {
         return NULL;
     }
 
-    str = aux;
+    str = tmp;
     str[len] = '\0';
 
     return str;
