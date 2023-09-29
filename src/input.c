@@ -107,14 +107,28 @@ char get_char(const char *message)
 
 char *get_string(const char *message)
 {
-    char *s = NULL;
+    char *input = NULL, *s = NULL;
+    int len = 0;
 
-    printf("%s", message);
+    do
+    {
+        printf("%s", message);
 
-    if (!(s = get_stdin()))
+        if (!(input = get_stdin()))
+        {
+            return NULL;
+        }
+
+        len = strlen(input);
+    }
+    while(!len);
+
+    if (!(s = malloc(len)))
     {
         return NULL;
     }
+
+    strncat(s, input, len);
 
     return s;
 }
