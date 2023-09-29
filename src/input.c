@@ -36,13 +36,66 @@ static int endofline(int c)
     return eol;
 }
 
+static char *get_stdin()
+{
+    char *tmp = malloc(1);
+    int c = 0, eol = 0;
+    size_t capacity = 1, len = 0;
+
+    while ((c = fgetc(stdin)) != EOF && !(eol = endofline(c)))
+    {
+        if (eol == -1)
+        {
+            return NULL;
+        }
+
+        if (len + 1 == capacity)
+        {
+            if (SIZE_MAX / 2 < capacity)
+            {
+                return NULL;
+            }
+
+            if (!(tmp = realloc(str, capacity * 2)))
+            {
+                return NULL;
+            }
+
+            capacity *= 2;
+            str = tmp;
+        }
+
+        str[len++] = (char)c;
+    }
+
+    if (!len && c == EOF)
+    {
+        return NULL;
+    }
+
+    if (len)
+    {
+        if (!(tmp = realloc(str, len)))
+        {
+            return NULL;
+        }
+    }
+
+    str = tmp;
+    str[len] = '\0';
+
+    return str;
+}
+
 char get_char(const char *message)
 {
     char c = 0, i = 0, *input = NULL;
 
     do
     {
-        if (!(input = get_string(message)))
+        printf("%s", message);
+
+        if (!(input = get_stdin()))
         {
             return CHAR_MAX;
         }
@@ -52,6 +105,20 @@ char get_char(const char *message)
     return c;
 }
 
+char *get_string(const char *message)
+{
+    char *s = NULL;
+
+    printf("%s", message);
+
+    if (!(s = get_stdin()))
+    {
+        return NULL;
+    }
+
+    return s;
+}
+
 double get_double(const char *message)
 {
     char *input = NULL, *tmp = NULL;
@@ -59,7 +126,9 @@ double get_double(const char *message)
 
     do
     {
-        if (!(input = get_string(message)))
+        printf("%s", message);
+
+        if (!(input = get_stdin()))
         {
             return DBL_MAX;
         }
@@ -80,7 +149,9 @@ float get_float(const char *message)
 
     do
     {
-        if (!(input = get_string(message)))
+        printf("%s", message);
+
+        if (!(input = get_stdin()))
         {
             return FLT_MAX;
         }
@@ -101,7 +172,9 @@ int get_int(const char *message)
 
     do
     {
-        if (!(input = get_string(message)))
+        printf("%s", message);
+
+        if (!(input = get_stdin()))
         {
             return INT_MAX;
         }
@@ -122,7 +195,9 @@ long get_long(const char *message)
 
     do
     {
-        if (!(input = get_string(message)))
+        printf("%s", message);
+
+        if (!(input = get_stdin()))
         {
             return LONG_MAX;
         }
@@ -133,54 +208,4 @@ long get_long(const char *message)
     while (tmp == input || *tmp != '\0' || errno || isspace(*input));
 
     return l;
-}
-
-char *get_string(const char *message)
-{
-    char *tmp = NULL;
-    int c = 0, eol = 0;
-    size_t capacity = 1, len = 0;
-
-    printf("%s", message);
-
-    while ((c = fgetc(stdin)) != EOF && !(eol = endofline(c)))
-    {
-        if (eol == -1)
-        {
-            return NULL;
-        }
-
-        if (len + 1 == capacity)
-        {
-            if (SIZE_MAX / 2 < capacity || !(tmp = realloc(str, capacity * 2)))
-            {
-                return NULL;
-            }
-
-            capacity *= 2;
-            str = tmp;
-        }
-
-        str[len++] = (char)c;
-    }
-
-    if (!len && c == EOF)
-    {
-        return NULL;
-    }
-
-    if (!len)
-    {
-        return get_string(message);
-    }
-
-    if (!(tmp = realloc(str, len)))
-    {
-        return NULL;
-    }
-
-    str = tmp;
-    str[len] = '\0';
-
-    return str;
 }
