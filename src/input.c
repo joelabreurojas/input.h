@@ -3,6 +3,7 @@
 #include <float.h>
 #include <limits.h>
 #include <math.h>
+#include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,13 +88,19 @@ static char *get_stdin()
     return str;
 }
 
-char get_char(const char *message)
+char get_char(const char *format, ...)
 {
     char c = 0, i = 0, *input = NULL;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
@@ -105,14 +112,20 @@ char get_char(const char *message)
     return c;
 }
 
-char *get_string(const char *message)
+char *get_string(const char *format, ...)
 {
     char *input = NULL, *s = NULL;
     int len = 0;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
@@ -133,14 +146,20 @@ char *get_string(const char *message)
     return s;
 }
 
-double get_double(const char *message)
+double get_double(const char *format, ...)
 {
     char *input = NULL, *tmp = NULL;
     double d = 0.0;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
@@ -156,14 +175,20 @@ double get_double(const char *message)
     return d;
 }
 
-float get_float(const char *message)
+float get_float(const char *format, ...)
 {
     char *input = NULL, *tmp = NULL;
     float f = 0.0;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
@@ -179,14 +204,20 @@ float get_float(const char *message)
     return f;
 }
 
-int get_int(const char *message)
+int get_int(const char *format, ...)
 {
     char *input = NULL, *tmp = NULL;
     long i = 0;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
@@ -202,14 +233,20 @@ int get_int(const char *message)
     return i;
 }
 
-long get_long(const char *message)
+long get_long(const char *format, ...)
 {
     char *input = NULL, *tmp = NULL;
     long l = 0;
 
     do
     {
-        printf("%s", message);
+        if (format)
+        {
+            va_list args;
+            va_start(args, format);
+            vprintf(format, args);
+            va_end(args);
+        }
 
         if (!(input = get_stdin()))
         {
