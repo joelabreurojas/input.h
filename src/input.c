@@ -92,23 +92,22 @@ char get_char(const char *format, ...)
 {
     char c = 0, i = 0, *input = NULL;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return CHAR_MAX;
         }
     }
     while (sscanf(input, "%c%c", &c, &i) != 1);
 
+    va_end(args);
     return c;
 }
 
@@ -117,18 +116,16 @@ char *get_string(const char *format, ...)
     char *input = NULL, *s = NULL;
     int len = 0;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return NULL;
         }
 
@@ -143,6 +140,7 @@ char *get_string(const char *format, ...)
 
     strncat(s, input, len);
 
+    va_end(args);
     return s;
 }
 
@@ -151,18 +149,16 @@ double get_double(const char *format, ...)
     char *input = NULL, *tmp = NULL;
     double d = 0.0;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return DBL_MAX;
         }
 
@@ -172,6 +168,7 @@ double get_double(const char *format, ...)
     while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            !isfinite(d) || strcspn(input, "XxEePp") != strlen(input));
 
+    va_end(args);
     return d;
 }
 
@@ -180,18 +177,16 @@ float get_float(const char *format, ...)
     char *input = NULL, *tmp = NULL;
     float f = 0.0;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return FLT_MAX;
         }
 
@@ -201,6 +196,7 @@ float get_float(const char *format, ...)
     while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            !isfinite(f) || strcspn(input, "XxEePp") != strlen(input));
 
+    va_end(args);
     return f;
 }
 
@@ -209,18 +205,16 @@ int get_int(const char *format, ...)
     char *input = NULL, *tmp = NULL;
     long i = 0;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return INT_MAX;
         }
 
@@ -230,6 +224,7 @@ int get_int(const char *format, ...)
     while (tmp == input || *tmp != '\0' || errno || isspace(*input) ||
            i < INT_MIN || i > INT_MAX);
 
+    va_end(args);
     return i;
 }
 
@@ -238,18 +233,16 @@ long get_long(const char *format, ...)
     char *input = NULL, *tmp = NULL;
     long l = 0;
 
+    va_list args;
+    va_start(args, format);
+
     do
     {
-        if (format)
-        {
-            va_list args;
-            va_start(args, format);
-            vprintf(format, args);
-            va_end(args);
-        }
+        vprintf(format, args);
 
         if (!(input = get_stdin()))
         {
+            va_end(args);
             return LONG_MAX;
         }
 
@@ -258,5 +251,6 @@ long get_long(const char *format, ...)
     }
     while (tmp == input || *tmp != '\0' || errno || isspace(*input));
 
+    va_end(args);
     return l;
 }
