@@ -39,7 +39,7 @@ static int endofline(int c)
 
 static char *get_stdin()
 {
-    char *tmp = malloc(1);
+    char *tmp = malloc(sizeof(char));
     int c = 0, eol = 0;
     size_t capacity = 1, len = 0;
 
