@@ -114,7 +114,7 @@ char get_char(const char *format, ...)
 char *get_string(const char *format, ...)
 {
     char *input = NULL, *s = NULL;
-    int len = 0;
+    size_t len = 0;
 
     va_list args;
     va_start(args, format);
@@ -133,7 +133,7 @@ char *get_string(const char *format, ...)
     }
     while(!len);
 
-    if (!(s = malloc(len)))
+    if (!(s = malloc(len + 1)))
     {
         return NULL;
     }
