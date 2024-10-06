@@ -32,7 +32,7 @@ The main goal is to understand memory management with the heap as it is built, a
 
 ### 💻 Usage
 
-```
+```c
 #include "input.h"
 
 // The syntax is similar to <type> input = get_<type>("message");
