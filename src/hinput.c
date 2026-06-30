@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "input.h"
+#include "hinput.h"
 
 #if defined (__GNUC__)
     static void cleanup(void) __attribute__((destructor));

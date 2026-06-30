@@ -13,11 +13,11 @@ BUILD_DIR = build
 
 # Targets
 LIB_NAME = libhinput
-TEST_NAME = test_input
+TEST_NAME = test_hinput
 
 # Source files
-LIB_SRC = $(SRC_DIR)/input.c
-LIB_OBJ = $(BUILD_DIR)/input.o
+LIB_SRC = $(SRC_DIR)/hinput.c
+LIB_OBJ = $(BUILD_DIR)/hinput.o
 TEST_SRC = $(TEST_DIR)/main.c
 TEST_BIN = $(BUILD_DIR)/$(TEST_NAME)
 
@@ -29,7 +29,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 # Compile library object
-$(LIB_OBJ): $(LIB_SRC) $(SRC_DIR)/input.h | $(BUILD_DIR)
+$(LIB_OBJ): $(LIB_SRC) $(SRC_DIR)/hinput.h | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Compile and link test binary
@@ -49,6 +49,6 @@ install: $(LIB_OBJ)
 	install -d $(DESTDIR)/usr/local/lib
 	install -d $(DESTDIR)/usr/local/include
 	install $(LIB_OBJ) $(DESTDIR)/usr/local/lib/$(LIB_NAME).a
-	install $(SRC_DIR)/input.h $(DESTDIR)/usr/local/include/
+	install $(SRC_DIR)/hinput.h $(DESTDIR)/usr/local/include/
 
 .PHONY: all test clean install

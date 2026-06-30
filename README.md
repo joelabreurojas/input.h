@@ -63,7 +63,7 @@ gcc -Wall -Wextra -pedantic -std=c11 -c src/input.c -o build/input.o
 Include the header in your project:
 
 ```c
-#include "input.h"
+#include "hinput.h"
 
 int main(void)
 {

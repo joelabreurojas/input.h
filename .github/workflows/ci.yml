@@ -24,7 +24,7 @@ jobs:
 
       - name: Run tests
         run: |
-          echo "A" | ./build/test_input || true
+          echo "A" | ./build/test_hinput || true
         continue-on-error: true
 
       - name: Clean up
