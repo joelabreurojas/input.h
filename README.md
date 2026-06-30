@@ -1,79 +1,116 @@
 <h1 align='center'>
-    input.h
-    <br>
-    <a href="https://github.com/j4breu/input.h/blob/main/LICENSE">
-    <img
-        alt='Logo'
-        src='https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logoColor=d9e0ee&colorA=302d41&colorB=555555'/>
-    </a>
-    <div></div>
+    hinput
 </h1>
 
 <p align='center'>
-    <em>Library that uses heap to simplify user input in C.</em>
+    <em>Heap-based input() with type validation — a C library for safe, dynamic user input.</em>
 </p>
+
+<h6 align='center'>
+    <a href="https://github.com/joelabreurojas/hinput/blob/main/LICENSE">
+        <img alt='MIT License' src='https://img.shields.io/static/v1.svg?label=License&message=MIT&logoColor=d9e0ee&colorA=302d41&colorB=3094FF'/>
+    </a>
+</h6>
 
 &nbsp;
 
 ### ✨ Overview
 
-This is a C library, inspired by [libcs50](https://github.com/cs50/libcs50), that simplifies the process of getting user input. It provides a convenient way to display a message, read user input, filter it and return it if valid. If the input is invalid, the library repeats the process until valid input is received.
+Lightweight C library that provides safe, type-validated user input functions. It replaces the standard `getchar()`, `gets()`, `scanf()` family with robust alternatives that handle memory management and input validation automatically.
 
-The main goal is to understand memory management with the heap as it is built, and to provide a higher level abstraction for handling user input. Contributions and suggestions are welcome to further improve and extend the functionality.
+**Why hinput?**
+
+- **Heap-allocated buffers**: Dynamic sizing via `malloc`/`realloc`, no fixed limits
+- **Automatic cleanup**: Memory freed via `__attribute__((destructor))`
+- **Type validation**: Input is validated against expected types (int, float, string, etc.)
+- **Variadic format strings**: Printf-style prompt formatting
+- **Cross-platform**: Works with GCC on Linux/macOS
 
 &nbsp;
 
-### 🔧 Set up
+### 🚀 Getting Started
 
-1. Clone the repository.
-2. Link the path when you want execute your program.
+#### Prerequisites
 
-&nbsp;
+- GCC compiler (or compatible C11 compiler)
+- Make (optional, for building with Makefile)
 
-### 💻 Usage
+#### Installation
 
-```c
-#include "input.h"
+Clone the repository:
 
-// The syntax is similar to <type> input = get_<type>("message");
-// And type can be char, string (char *), double, float, integer and long
+```bash
+git clone https://github.com/joelabreurojas/hinput.git
+cd hinput
+```
 
-...
+Build using Make:
 
-// Normal
-char name = get_char("Message");
+```bash
+make all
+```
 
-// Format
-char name = get_char("%s", message);
+Or compile manually:
 
-// String case
-char *name = get_string("Message");
-char *name = get_string("%s", message);
-
-...
+```bash
+gcc -Wall -Wextra -pedantic -std=c11 -c src/input.c -o build/input.o
 ```
 
 &nbsp;
 
-### 👐 Contribute
+### 📖 Usage
 
-> Improvements?
+Include the header in your project:
 
-* Don't hesitate to create a PR.
+```c
+#include "input.h"
 
-> Problems?
+int main(void)
+{
+    char c = get_char("Enter a character: ");
+    char *s = get_string("Enter a string: ");
+    int i = get_int("Enter an integer: ");
+    float f = get_float("Enter a float: ");
 
-* Feel free to open a new issue!
+    printf("You entered: %c, %s, %i, %g\n", c, s, i, f);
+
+    return 0;
+}
+```
+
+Compile with the library:
+
+```bash
+gcc your_program.c build/input.o -o your_program -lm
+```
 
 &nbsp;
 
-### 🔎 See more
+### 🔧 API Reference
 
-* [Dynamic String with Memory Allocation](https://stackoverflow.com/questions/62878982/how-to-make-a-dynamic-string)
-* [Comparison between getchar/putchar, gets/puts and fgets/fputs](https://stackoverflow.com/questions/39224580/what-is-the-difference-between-getchar-putchar-gets-puts-and-fgets-fputs-in-c)
-* [Comparison between atoi, atol, strtol, stroul and sscanf](https://stackoverflow.com/questions/22865622/atoi-vs-atol-vs-strtol-vs-strtoul-vs-sscanf)
-* [Correct use of strol](https://stackoverflow.com/questions/14176123/correct-usage-of-strtol/14176593#14176593)
-* [Equivalent `__attribute__((constructor))` for VC](https://gist.github.com/tenmyo/dde01e838cdaf14c8353fbad03ab9bc8)
-* [Read line by line](https://stackoverflow.com/questions/3501338/c-read-file-line-by-line)
-* [Variatic arguments](https://stackoverflow.com/questions/3530771/passing-variable-arguments-to-another-function-that-accepts-a-variable-argument)
+| Function | Return Type | Description |
+|----------|-------------|-------------|
+| `get_char(format, ...)` | `char` | Reads a single character |
+| `get_string(format, ...)` | `char*` | Reads a string (caller must free) |
+| `get_int(format, ...)` | `int` | Reads an integer |
+| `get_long(format, ...)` | `long` | Reads a long integer |
+| `get_float(format, ...)` | `float` | Reads a float |
+| `get_double(format, ...)` | `double` | Reads a double |
 
+All functions accept a printf-style format string for the prompt.
+
+&nbsp;
+
+### 🧪 Testing
+
+Run the interactive test suite:
+
+```bash
+echo "test" | make test
+```
+
+&nbsp;
+
+### 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
